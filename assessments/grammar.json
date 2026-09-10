@@ -1,0 +1,587 @@
+{
+  "title": "Yunhai French grammar bank",
+  "scope": "Grammar required for robust NCLC 7 / TEF Canada reading and writing. This is a learnable rule index, not a list of every lexical exception in French.",
+  "familiarity_scale": {
+    "0": "Not yet meaningfully assessed.",
+    "1": "Encountered or attempted, but not reliable.",
+    "2": "Demonstrated some independent understanding or use in a familiar context.",
+    "3": "Usually correct in straightforward practice.",
+    "4": "Reliable across different contexts, including producing French.",
+    "5": "Consistently reliable across varied contexts and relevant forms."
+  },
+  "categories": [
+    {
+      "name": "Foundations and present tense",
+      "rules": [
+        {
+          "id": "F01",
+          "rule": "Basic declarative order: subject + conjugated verb + complements.",
+          "level": "A1",
+          "familiarity": 1
+        },
+        {
+          "id": "F02",
+          "rule": "Subject pronouns: je, tu, il/elle/on, nous, vous, ils/elles; use on and nous appropriately.",
+          "level": "A1",
+          "familiarity": 1
+        },
+        {
+          "id": "F03",
+          "rule": "Present tense of être for identity, state, profession and location.",
+          "level": "A1",
+          "familiarity": 1
+        },
+        {
+          "id": "F04",
+          "rule": "Present tense of avoir and common expressions with avoir (age, faim, besoin, envie, peur).",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "F05",
+          "rule": "Regular -er present endings, including spelling changes such as manger and commencer.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "F06",
+          "rule": "Regular -ir and -re present endings.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "F07",
+          "rule": "Reflexive verbs in the present: me/te/se/nous/vous/se + verb.",
+          "level": "A1",
+          "familiarity": 1
+        },
+        {
+          "id": "F08",
+          "rule": "High-frequency irregular present forms: aller, faire, pouvoir, vouloir, devoir, venir, prendre, mettre, dire, voir, savoir and connaître.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "F09",
+          "rule": "Placement of ordinary adverbs and frequency adverbs in a simple sentence.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "F10",
+          "rule": "Use il y a for existence and c'est / ce sont for identification.",
+          "level": "A1",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Nouns, determiners and adjectives",
+      "rules": [
+        {
+          "id": "N01",
+          "rule": "Noun gender; determiner and adjective agreement with masculine and feminine nouns.",
+          "level": "A1",
+          "familiarity": 1
+        },
+        {
+          "id": "N02",
+          "rule": "Regular plurals and common irregular plural patterns (-al to -aux, -eau to -eaux).",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "N03",
+          "rule": "Definite articles le, la, l' and les for specific, general and abstract reference.",
+          "level": "A1",
+          "familiarity": 1
+        },
+        {
+          "id": "N04",
+          "rule": "Indefinite articles un, une and des for non-specific count nouns.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "N05",
+          "rule": "Partitive articles du, de la, de l' and des; de after negation and quantity expressions where required.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "N06",
+          "rule": "Contractions with à and de: au, à la, à l', aux, du, de la, de l' and des.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "N07",
+          "rule": "Possessive determiners agree with the possessed noun: mon/ma/mes, ton/ta/tes, son/sa/ses, etc.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "N08",
+          "rule": "Demonstrative determiners ce, cet, cette and ces; use -ci and -là to distinguish.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "N09",
+          "rule": "Adjective gender and number agreement, including frequent irregular forms.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "N10",
+          "rule": "Usual adjective position and common position changes that alter meaning.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "N11",
+          "rule": "Comparisons and superlatives: plus/moins/aussi ... que; le/la/les plus or moins.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "N12",
+          "rule": "Quantifiers and indefinite determiners: beaucoup de, peu de, assez de, trop de, chaque, plusieurs, quelques, aucun and certain.",
+          "level": "A2",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Negation and questions",
+      "rules": [
+        {
+          "id": "Q01",
+          "rule": "Standard negation ne ... pas, including elision before a vowel or mute h.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "Q02",
+          "rule": "Extended negation: ne ... jamais, plus, rien, personne, aucun and que.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "Q03",
+          "rule": "Questions with intonation, est-ce que and inversion; choose register appropriately.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "Q04",
+          "rule": "Question words: qui, que/qu'est-ce que, quoi, où, quand, comment, pourquoi, combien and quel.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "Q05",
+          "rule": "Agreement of quel and interrogative lequel forms after prepositions.",
+          "level": "A2",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Pronouns",
+      "rules": [
+        {
+          "id": "P01",
+          "rule": "Stressed pronouns moi, toi, lui, elle, nous, vous, eux and elles after prepositions and for emphasis.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "P02",
+          "rule": "Direct-object pronouns le, la, l' and les before the conjugated verb.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "P03",
+          "rule": "Indirect-object pronouns lui and leur for verbs taking à + person.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "P04",
+          "rule": "y for à + thing/place and en for de + thing or a quantity.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "P05",
+          "rule": "Order of two object pronouns before a verb.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "P06",
+          "rule": "Object-pronoun placement with infinitives.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "P07",
+          "rule": "Pronouns with the imperative: affirmative after the verb; negative before it.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "P08",
+          "rule": "Demonstrative pronouns celui, celle, ceux and celles.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "P09",
+          "rule": "Possessive pronouns le mien, la mienne, les miens, etc.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "P10",
+          "rule": "Indefinite, reflexive and reciprocal pronouns.",
+          "level": "B1",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Past, future and conditional time",
+      "rules": [
+        {
+          "id": "T01",
+          "rule": "Passé composé with avoir or être plus past participle.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "T02",
+          "rule": "Main verbs and reflexive verbs that take être in the passé composé.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "T03",
+          "rule": "Past-participle agreement with être and with a preceding direct object where required.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "T04",
+          "rule": "Imparfait for description, background, habitual past action and ongoing state.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "T05",
+          "rule": "Passé composé versus imparfait: completed event versus setting, habit or ongoing action.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "T06",
+          "rule": "Plus-que-parfait for an action completed before another past reference point.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "T07",
+          "rule": "Recent past: venir de + infinitive.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "T08",
+          "rule": "Near future: aller + infinitive.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "T09",
+          "rule": "Futur simple for plans, predictions, promises and formal future reference.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "T10",
+          "rule": "Futur antérieur for completion before a future point and past supposition.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "T11",
+          "rule": "Present conditional for politeness, advice, wishes and hypothetical results.",
+          "level": "A2",
+          "familiarity": 1
+        },
+        {
+          "id": "T12",
+          "rule": "Past conditional for unreal past results, regret and reported information.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "T13",
+          "rule": "Time and duration: depuis, il y a, pendant, en, pour and dans.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "T14",
+          "rule": "Action in progress: être en train de + infinitive.",
+          "level": "A2",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Infinitives and verbal constructions",
+      "rules": [
+        {
+          "id": "V01",
+          "rule": "Use an infinitive after a conjugated modal or preference verb where French requires it.",
+          "level": "A1",
+          "familiarity": 1
+        },
+        {
+          "id": "V02",
+          "rule": "Common verb patterns: à + infinitive, de + infinitive, or bare infinitive.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "V03",
+          "rule": "Imperative forms, including irregular forms and negative imperative.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "V04",
+          "rule": "Causation or services: faire + infinitive.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "V05",
+          "rule": "Permission and perception: laisser + infinitive; voir/entendre + infinitive.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "V06",
+          "rule": "Present participle and gérondif (en + present participle) for simultaneous action, method, cause or contrast.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "V07",
+          "rule": "Passive voice: être + past participle, agreement and par/de agent phrases.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "V08",
+          "rule": "Impersonal forms: il faut, il semble, il paraît, il est possible/important de and il y a.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "V09",
+          "rule": "Use general on or pronominal passive when more natural than an explicit passive.",
+          "level": "B2",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Complex sentences and relative clauses",
+      "rules": [
+        {
+          "id": "C01",
+          "rule": "Coordinating conjunctions: et, mais, ou, donc, or, ni and car.",
+          "level": "A1",
+          "familiarity": 0
+        },
+        {
+          "id": "C02",
+          "rule": "Cause: parce que, puisque, comme, car and grâce à.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "C03",
+          "rule": "Result and explanation: donc, alors, ainsi, par conséquent, c'est pourquoi and en effet.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "C04",
+          "rule": "Contrast and concession: mais, pourtant, cependant, toutefois, tandis que, malgré and bien que.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "C05",
+          "rule": "Purpose: pour + infinitive, afin de + infinitive, pour que and afin que.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "C06",
+          "rule": "Time clauses: quand, lorsque, dès que, pendant que, avant que, après que, jusqu'à ce que and depuis que.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "C07",
+          "rule": "Relative pronouns qui, que, dont and où; choose the pronoun from its grammatical role.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "C08",
+          "rule": "Relative lequel forms, including auquel and duquel, after prepositions.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "C09",
+          "rule": "Ce qui, ce que, ce dont and ce à quoi for an entire idea or unspecified thing.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "C10",
+          "rule": "Indirect questions and reported speech, including tense and pronoun changes after a past reporting verb.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "C11",
+          "rule": "Punctuation and sentence boundaries that avoid run-on sentences in formal writing.",
+          "level": "B1",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Subjunctive and hypothesis",
+      "rules": [
+        {
+          "id": "S01",
+          "rule": "Present subjunctive formation, including common irregular stems.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "S02",
+          "rule": "Subjunctive after necessity, desire, emotion, doubt, possibility and judgment.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "S03",
+          "rule": "Indicative versus subjunctive after common conjunctions, including bien que, pour que, avant que, à condition que and après que.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "S04",
+          "rule": "Subjunctive in relative clauses with uncertain, desired, superlative or evaluated antecedents.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "S05",
+          "rule": "Real condition: si + present with future, imperative or present result.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "S06",
+          "rule": "Hypothetical present/future: si + imparfait with present conditional.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "S07",
+          "rule": "Unreal past: si + plus-que-parfait with past conditional.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "S08",
+          "rule": "Do not use future or conditional directly after si in standard conditional clauses.",
+          "level": "B1",
+          "familiarity": 0
+        }
+      ]
+    },
+    {
+      "name": "Prepositions, register and TEF writing control",
+      "rules": [
+        {
+          "id": "W01",
+          "rule": "Location prepositions: à, dans, en, au, aux, chez, sur, sous, devant, derrière, entre and parmi.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "W02",
+          "rule": "Geographic prepositions with countries, regions and cities.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "W03",
+          "rule": "Tu versus vous and polite requests with conditional or imperative forms.",
+          "level": "A2",
+          "familiarity": 0
+        },
+        {
+          "id": "W04",
+          "rule": "Formal written openings, closings and address forms without register mixing.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "W05",
+          "rule": "Consistent agreement across determiners, nouns, adjectives, past participles and pronouns.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "W06",
+          "rule": "Paragraph grammar: claim, reason, example and conclusion linked with varied connectors.",
+          "level": "B1",
+          "familiarity": 0
+        },
+        {
+          "id": "W07",
+          "rule": "Opinion, qualification and hedging with appropriate indicative, subjunctive and conditional structures.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "W08",
+          "rule": "Nominalization and impersonal structures for concise formal writing.",
+          "level": "B2",
+          "familiarity": 0
+        },
+        {
+          "id": "W09",
+          "rule": "Proofread for agreement, tense consistency, pronoun reference, articles, prepositions and negation.",
+          "level": "B1",
+          "familiarity": 0
+        }
+      ]
+    }
+  ]
+}

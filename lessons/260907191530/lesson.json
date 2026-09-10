@@ -1,0 +1,153 @@
+{
+  "schema_version": 2,
+  "lesson_id": "260907191530",
+  "type": "trial",
+  "created_at": "2026-09-07T19:15:30-04:00",
+  "updated_at": "2026-09-07T19:18:26-04:00",
+  "ended_at": null,
+  "timezone": "America/Toronto",
+  "status": "in_progress",
+  "completed": false,
+  "cefr_level": "A0",
+  "assessment_log_path": null,
+  "completed_lessons_today_at_start": 0,
+  "active_sections": [
+    "Writing"
+  ],
+  "current_section": "Writing",
+  "Focus": {
+    "situation": "Everyday life: writing section trial",
+    "vocabulary": [],
+    "grammar": []
+  },
+  "Reading": {
+    "status": "not_started",
+    "current_item": null,
+    "items": []
+  },
+  "Listening": {
+    "status": "not_started",
+    "current_item": null,
+    "items": []
+  },
+  "Writing": {
+    "status": "in_progress",
+    "current_item": "writing-02",
+    "items": [
+      {
+        "id": "writing-01",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage into natural French.",
+        "french": "Je suis à la maison avec mon frère. Il a un livre. Nous voulons étudier le français ensemble.",
+        "english": "I am at home with my brother. He has a book. We want to study French together.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "correct",
+        "attempts": [
+          {
+            "attempt_number": 1,
+            "recorded_at": "2026-09-07T19:17:01-04:00",
+            "response": "Je suis à la maison avec mon frère. Il a un livre. Nous voulons étudie le frençais together. ",
+            "response_audio_path": null,
+            "verdict": "Almost correct",
+            "corrections": [
+              "étudie → étudier: after voulons, use the infinitive (to study).",
+              "frençais → français: spell it with a, not e.",
+              "together → ensemble: use the French word."
+            ],
+            "reference_shown_before_attempt": false,
+            "reference_revealed": true
+          },
+          {
+            "attempt_number": 2,
+            "recorded_at": "2026-09-07T19:18:26-04:00",
+            "response": "Je suis à la maison avec mon frère. Il a un livre. Nous voulons étudier le français ensemble.",
+            "response_audio_path": null,
+            "verdict": "Correct",
+            "corrections": [],
+            "reference_shown_before_attempt": true,
+            "reference_revealed": true
+          }
+        ]
+      },
+      {
+        "id": "writing-02",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage into natural French.",
+        "french": "Mon amie aime l’école. Elle a un petit sac et deux livres. Son sac est sur la table.",
+        "english": "My friend likes school. She has a small bag and two books. Her bag is on the table.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "awaiting_answer",
+        "attempts": []
+      },
+      {
+        "id": "writing-03",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage into natural French.",
+        "french": "Après l’école, je rentre à la maison. Je fais mes devoirs avec ma sœur. Nous ne sommes pas prêts à sortir.",
+        "english": "After school, I go home. I do my homework with my sister. We are not ready to go out.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "not_started",
+        "attempts": []
+      },
+      {
+        "id": "writing-04",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage into natural French.",
+        "french": "Ma mère est dans la cuisine. Elle veut du pain. J’ai une pomme, mais je ne veux pas manger.",
+        "english": "My mother is in the kitchen. She wants some bread. I have an apple, but I do not want to eat.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "not_started",
+        "attempts": []
+      }
+    ]
+  },
+  "Speaking": {
+    "status": "not_started",
+    "current_item": null,
+    "items": []
+  }
+}

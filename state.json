@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-09T22:23:17-04:00",
+  "mode": "isolated_test",
+  "test_root": "/private/tmp/french-learning-test.rp8fZd",
+  "active_lesson_id": "260909160638",
+  "page": "review",
+  "pending_action": null,
+  "choices": [],
+  "page_number": 1,
+  "archive_lesson_id": null,
+  "archive_position": null
+}

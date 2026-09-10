@@ -1,0 +1,192 @@
+{
+  "schema_version": 3,
+  "lesson_id": "260907235259",
+  "type": "trial",
+  "created_at": "2026-09-07T23:52:59-04:00",
+  "updated_at": "2026-09-08T00:01:07-04:00",
+  "ended_at": null,
+  "timezone": "America/Toronto",
+  "status": "in_progress",
+  "completed": false,
+  "cefr_level": "A0",
+  "assessment_log_path": null,
+  "completed_lessons_today_at_start": 0,
+  "active_sections": [
+    "Speaking"
+  ],
+  "current_section": "Speaking",
+  "Focus": {
+    "situation": "Everyday life: speaking section trial using dictation",
+    "vocabulary": [],
+    "grammar": []
+  },
+  "Reading": {
+    "status": "not_started",
+    "current_item": null,
+    "items": []
+  },
+  "Listening": {
+    "status": "not_started",
+    "current_item": null,
+    "items": []
+  },
+  "Writing": {
+    "status": "not_started",
+    "current_item": null,
+    "items": []
+  },
+  "Speaking": {
+    "status": "in_progress",
+    "current_item": "speaking-02",
+    "items": [
+      {
+        "id": "speaking-01",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage aloud into natural French using dictation, then send the text.",
+        "french": "Ma sœur est à la maison. Elle a un livre dans son sac. Je veux lire avec elle.",
+        "english": "My sister is at home. She has a book in her bag. I want to read with her.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "correct",
+        "attempts": [
+          {
+            "attempt_number": 1,
+            "recorded_at": "2026-09-07T23:54:32-04:00",
+            "response": "Mon fils à la maison. Elle a un livre dans le sac. Je veux... je voudrais livre avec elle.",
+            "response_audio_path": null,
+            "verdict": "Needs revision",
+            "corrections": [
+              "Mon fils → Ma sœur: the transcript says my son instead of my sister. Use ma with the feminine noun sœur.",
+              "[missing] → est: the first sentence needs is before à la maison.",
+              "le sac → son sac: the source says her bag, not the bag. Son agrees with masculine sac.",
+              "livre → lire: after veux or voudrais, use the infinitive to read, not the noun book."
+            ],
+            "reference_shown_before_attempt": false,
+            "reference_revealed": false
+          },
+          {
+            "attempt_number": 2,
+            "recorded_at": "2026-09-07T23:56:27-04:00",
+            "response": "Mara froid et à la maison, il a un livre dans sa sac. Je voudrais lire avec elle.",
+            "response_audio_path": null,
+            "verdict": "Needs revision",
+            "corrections": [
+              "Mara froid et → Ma sœur est: the intended opening is my sister is. This may be a dictation error; please confirm what you said.",
+              "il → elle: the passage refers to your sister (she).",
+              "sa sac → son sac: sac is masculine, so use son even when the owner is female."
+            ],
+            "reference_shown_before_attempt": false,
+            "reference_revealed": false
+          },
+          {
+            "attempt_number": 3,
+            "recorded_at": "2026-09-07T23:59:21-04:00",
+            "response": "Ma sœur est à la maison. Elle a un livre dans son sac. Je voudrais lire avec ça.",
+            "response_audio_path": null,
+            "verdict": "Almost correct",
+            "corrections": [
+              "avec ça → avec elle: ça means that; elle means her. If you said elle, this may be pronunciation unclearness or a dictation error—try saying the phrase again clearly."
+            ],
+            "reference_shown_before_attempt": false,
+            "reference_revealed": false
+          },
+          {
+            "attempt_number": 4,
+            "recorded_at": "2026-09-08T00:00:16-04:00",
+            "response": "Ma sœur est à la maison. Il a un livre dans son sac. Je voudrais lire avec elle.",
+            "response_audio_path": null,
+            "verdict": "Almost correct",
+            "corrections": [
+              "Il → Elle: your sister is she, not he. If you said elle, this is possible pronunciation unclearness or a dictation error, not a confirmed grammar mistake."
+            ],
+            "reference_shown_before_attempt": false,
+            "reference_revealed": false
+          },
+          {
+            "attempt_number": 5,
+            "recorded_at": "2026-09-08T00:01:07-04:00",
+            "response": "Ma sœur est à la maison. elle a un livre dans son sac. Je voudrais lire avec elle.",
+            "response_audio_path": null,
+            "verdict": "Correct",
+            "corrections": [],
+            "reference_shown_before_attempt": false,
+            "reference_revealed": true
+          }
+        ]
+      },
+      {
+        "id": "speaking-02",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage aloud into natural French using dictation, then send the text.",
+        "french": "Nous sommes à l’école avec un ami. Il aime le français. Nous voulons étudier ensemble après l’école.",
+        "english": "We are at school with a friend. He likes French. We want to study together after school.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "awaiting_answer",
+        "attempts": []
+      },
+      {
+        "id": "speaking-03",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage aloud into natural French using dictation, then send the text.",
+        "french": "J’ai un petit sac. Mon livre est sur la table. Je suis prêt, mais mon frère n’est pas prêt.",
+        "english": "I have a small bag. My book is on the table. I am ready, but my brother is not ready.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "not_started",
+        "attempts": []
+      },
+      {
+        "id": "speaking-04",
+        "kind": "passage",
+        "task": "translate_to_french",
+        "instruction": "Please translate the following passage aloud into natural French using dictation, then send the text.",
+        "french": "Mon ami veut sortir. Je ne veux pas sortir maintenant. Je veux faire mes devoirs.",
+        "english": "My friend wants to go out. I do not want to go out now. I want to do my homework.",
+        "target_words": {
+          "min": 15,
+          "max": 25
+        },
+        "focus_vocabulary_ids": [],
+        "focus_grammar_ids": [],
+        "audio": {
+          "normal": null,
+          "slow": null,
+          "very_slow": null
+        },
+        "status": "not_started",
+        "attempts": []
+      }
+    ]
+  }
+}
