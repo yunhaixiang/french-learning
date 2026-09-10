@@ -1,0 +1,11 @@
+# Local Python environments (keep installed dependencies off GitHub)
+.kokoro-env/
+.venv/
+venv/
+
+# Generated Python caches
+__pycache__/
+*.py[cod]
+
+# macOS Finder metadata
+.DS_Store
