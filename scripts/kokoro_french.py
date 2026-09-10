@@ -2,8 +2,8 @@
 """Create a local French Kokoro audio file.
 
 Examples:
-  .kokoro-env/bin/python kokoro_french.py "Bonjour, comment allez-vous ?"
-  .kokoro-env/bin/python kokoro_french.py --output audio/lesson-01.wav "..."
+  .kokoro-env/bin/python scripts/kokoro_french.py "Bonjour, comment allez-vous ?"
+  .kokoro-env/bin/python scripts/kokoro_french.py --output audio/lesson-01.wav "..."
 """
 
 from __future__ import annotations

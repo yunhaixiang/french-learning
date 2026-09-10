@@ -1,0 +1,10 @@
+# French WAV generation: Python 3.12, Apple Silicon, macOS 26.
+# Direct runtime dependencies pinned to the locally tested environment.
+# pip installs their transitive dependencies; this is not a full lockfile.
+kokoro-mlx==0.1.2
+mlx==0.32.2
+misaki[en]==0.9.4
+soundfile==0.14.0
+huggingface-hub==1.29.0
+numpy==2.5.2
+safetensors==0.8.0

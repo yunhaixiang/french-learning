@@ -9,3 +9,6 @@ __pycache__/
 
 # macOS Finder metadata
 .DS_Store
+
+# Optional installation smoke-test clips (not lesson records)
+/audio/setup-test*.wav

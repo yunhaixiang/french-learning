@@ -1,8 +1,195 @@
 # French learning buddy
 
-A daily French-learning project, starting with beginner A1 material and working toward NCLC 7 on
-TEF Canada within three years. The aim is to learn through meaningful exposure,
-practice, feedback, and review—not to rush through a fixed calendar.
+A reusable, assistant-guided French-learning workspace with local speech audio
+and progress saved in files. Anyone can make their own learner copy. The default
+goal is to start with A1 material and work toward NCLC 7 on TEF Canada within
+three years, through exposure, practice, feedback, and review.
+
+**This is not a standalone desktop app or website.** Your AI assistant runs the
+lessons by following [AGENTS.md](AGENTS.md), reading and updating the JSON records,
+and running the audio script. There is no server to launch. You need an assistant
+with access to your local project files and terminal; uploading this README to
+an ordinary chat alone does not set that up.
+
+## Install and set up
+
+### 1. Check what you need
+
+- An **Apple Silicon Mac** (M1 or later) for the included MLX audio backend.
+  The pinned recipe below targets **macOS 26**; the installed MLX 0.32.2 wheels
+  are tagged for macOS 26. This project was checked on an M1 running macOS 26.6.2.
+  Older macOS releases need a separately tested compatible dependency set.
+  Windows, Linux, and Intel Macs do not have a supported audio setup in this repo.
+- **Python 3.12**, running natively as `arm64`. Do not substitute Python 3.13+
+  for this dependency set. Git is optional if you download the repository ZIP.
+- A local-file-capable AI assistant. This workflow has been used in the Codex
+  desktop environment; another assistant must support file edits, command
+  execution, and local audio playback to provide the same experience.
+- Internet for installing packages, the first model download, and your assistant
+  service. Allow several GB of free disk space for the environment and models.
+
+The project code is free to use under the [MIT license](LICENSE). Local Kokoro
+generation has no per-clip API charge; your assistant's access, usage limits, and
+any subscription are separate. This does not install a local language tutor model.
+
+If you use [Homebrew](https://brew.sh/), install its
+[Python 3.12 package](https://formulae.brew.sh/formula/python@3.12):
+
+```sh
+brew install python@3.12
+python3.12 --version
+python3.12 -c 'import platform; print(platform.machine())'
+```
+
+The last command should print `arm64`. Install Homebrew first using its official
+instructions if needed; it is a convenience, not a requirement of the project.
+
+### 2. Download the project and choose your learner folder
+
+Clone the repository, or download and extract its ZIP from GitHub:
+
+```sh
+git clone https://github.com/yunhaixiang/french-learning.git
+cd french-learning
+```
+
+**New learner:** the repository may contain its original learner's scores,
+trial lessons, and a machine-specific navigation checkpoint. Do not use those
+as your own baseline. Create a separate clean copy:
+
+```sh
+python3.12 scripts/new_learner.py ../my-french-learning
+cd ../my-french-learning
+```
+
+Choose a different name if that folder already exists. The helper refuses to
+overwrite an existing folder or create a copy inside the source project. It
+copies the vocabulary, grammar, instructions, and tools; sets all familiarity
+to 0; unlocks only A1; and replaces the personal profile with neutral defaults.
+It does **not** copy lessons, backups, `state.json`, Git history, or the installed
+audio environment. The source project remains unchanged. It uses only Python's
+standard library, so it works before installing the audio packages.
+
+**Returning learner:** continue in your existing learner folder, with its
+assessments and lessons intact. Skip the fresh-copy command. Installing the audio
+dependencies does not reset progress. If you are restoring a backup with a stale
+test-folder pointer, ask the assistant to resolve it before beginning a lesson;
+do not let it guess or discard your records.
+
+Use the same learner folder each day. Separate learners should have separate
+folders, not share one set of scores.
+
+### 3. Recreate the local audio environment
+
+Run these commands **inside your learner folder**:
+
+```sh
+python3.12 -m venv .kokoro-env
+.kokoro-env/bin/python -m pip install --upgrade pip
+.kokoro-env/bin/python -m pip install -r requirements.txt
+.kokoro-env/bin/python -m pip check
+.kokoro-env/bin/python scripts/check_contract.py --self-test
+```
+
+No environment activation is necessary: the explicit Python path selects the
+right environment. `.kokoro-env` is deliberately excluded from Git. You recreate
+it from [requirements.txt](requirements.txt), rather than copying or committing
+its large binaries. Keep normal dependency installation enabled; do not add
+`--no-deps`.
+
+The manifest pins the direct dependencies from the working local environment,
+not every transitive package or the downloaded model revision:
+
+| Component | Purpose |
+|---|---|
+| `kokoro-mlx` | Kokoro speech generation and the API used by the project script. |
+| `mlx` | Apple Silicon inference; installs the matching `mlx-metal` dependency. |
+| `misaki[en]` | Text processing and phonemization dependencies required by `kokoro-mlx`. |
+| `soundfile` | Writing WAV files. |
+| `huggingface-hub`, `safetensors`, `numpy` | Model download/loading and numerical processing. |
+
+Although lessons are in French, this version of `kokoro-mlx` requires Misaki's
+`en` extra. Its dependency chain installs tools including spaCy, phonemizer,
+`espeakng-loader`, and potentially large PyTorch packages. They are installed
+automatically; you do not need to identify and copy files out of `.kokoro-env`.
+The French path uses Misaki's eSpeak backend with the library and data supplied
+by `espeakng-loader`. It does not require a separate French spaCy model or a
+separate Homebrew eSpeak installation in this setup.
+
+### 4. Test French audio
+
+```sh
+.kokoro-env/bin/python scripts/kokoro_french.py --output audio/setup-test.wav --speed 1.0 "Bonjour, je suis prêt à apprendre le français."
+afplay audio/setup-test.wav
+```
+
+The script uses French voice `ff_siwis`, language `fr`, and the default
+[Kokoro-82M-bf16 model](https://huggingface.co/mlx-community/Kokoro-82M-bf16).
+The first run downloads model assets through Hugging Face and can take longer;
+later runs reuse the cache. No paid TTS service or TTS API key is required.
+See [kokoro-mlx's documentation](https://github.com/gabrimatic/kokoro-mlx)
+for the underlying engine.
+
+For slow and very slow speech, use `--speed 0.75` or `--speed 0.50`, respectively.
+Use different output names, such as `audio/setup-test-slow.wav`, if you want to
+keep each test clip. These setup clips are ignored by Git and can be removed
+manually after testing. The test generates no lesson or learning-score changes.
+
+### 5. Open the folder in your assistant
+
+Install and sign in to the desktop assistant, then open **your learner folder**
+as the local project. OpenAI's current
+[desktop setup guide](https://learn.chatgpt.com/docs/app) explains installation,
+sign-in, opening a folder, and choosing Codex. Work directly in this folder so
+your saved progress stays in one place; avoid creating a separate worktree for
+each lesson. Review requested file, terminal, and audio permissions when prompted.
+
+For your first chat, say:
+
+> Read AGENTS.md. This is my learner folder. Check the setup, ask me to confirm
+> my language background and learning preferences, then show Menu. Do not start
+> a lesson or reset any records yet.
+
+The default teaching language is English and the default daily plan is one hour.
+You can ask the assistant to update your profile in AGENTS.md. Lesson timestamps
+currently use `America/Toronto`; request a consistent rule change if you need a
+different timezone, rather than renaming historical lessons.
+
+### Setup troubleshooting
+
+- **Python or a package cannot be found:** check you are in the learner folder
+  and use `.kokoro-env/bin/python`, not an unrelated global Python. Re-run the
+  dependency installation and `pip check` above.
+- **No matching MLX wheel / unsupported platform:** check macOS version, Python
+  3.12, and `arm64`. This pinned recipe is not an Intel/Rosetta or older-macOS
+  installation guide. Ask for help selecting compatible versions before changing
+  the manifest; do not assume every platform is supported.
+- **Metal/GPU permission error:** try the same audio command in your normal Mac
+  Terminal. An assistant's sandbox may restrict GPU access; review its request
+  for local execution permission. Do not disable system protections globally.
+- **Model download fails:** check connectivity and disk space, then retry. A
+  package installation alone does not download the model. Keep model caches
+  outside Git; the assistant should report failed audio generation honestly.
+- **French phonemization fails:** run `pip check` and confirm installation used
+  the full requirements, including extras. Ask for help with the exact error
+  before adding unrelated system packages or swapping the speech engine.
+- **Dictation or inline playback is unavailable:** use voice-to-text available
+  on your device and submit the resulting text. You can open generated WAV files
+  in a local player, but the assistant must still be able to save project files.
+
+## Privacy and backups
+
+Your lesson files contain answers, dictation transcripts, and detailed progress.
+Only the speech synthesis runs locally; material and answers you discuss with
+a hosted assistant are processed under that provider's terms and settings.
+Keep a private backup of your learner folder and review what you publish.
+
+The fresh-learner helper does not initialize Git or copy the source's history.
+If you want versioned backups, initialize your own repository in the new folder
+and choose private storage. `.gitignore` excludes environments and caches,
+**not your assessments or lesson transcripts**. Never commit credentials or
+model/environment binaries. Reinstall dependencies after moving to a new Mac;
+restore your assessment and lesson files to keep your progress.
 
 ## Start here
 
@@ -164,9 +351,9 @@ your completed daily lessons.
 
 ## Your progress records
 
-- [AGENTS.md](/Users/yunhai/Home/Repositories/french-learning/AGENTS.md): the assistant's detailed teaching instructions and lesson-file format.
-- [lessons/](/Users/yunhai/Home/Repositories/french-learning/lessons): dated lesson folders. Each `lesson.json` contains material, focus, answers, feedback, and progress; its `audio/` folder holds temporary generated clips. An `audio-cleanup.json` audit records completed-lesson audio removal.
-- [Vocabulary](/Users/yunhai/Home/Repositories/french-learning/assessments/vocabulary.json) and [grammar](/Users/yunhai/Home/Repositories/french-learning/assessments/grammar.json): familiarity records on a **0–5 scale**, from untested/unfamiliar to consistently reliable.
+- [AGENTS.md](AGENTS.md): the assistant's detailed teaching instructions and lesson-file format.
+- [lessons/](lessons/): dated lesson folders. Each `lesson.json` contains material, focus, answers, feedback, and progress; its `audio/` folder holds temporary generated clips. An `audio-cleanup.json` audit records completed-lesson audio removal.
+- [Vocabulary](assessments/vocabulary.json) and [grammar](assessments/grammar.json): familiarity records on a **0–5 scale**, from untested/unfamiliar to consistently reliable.
 - `lesson.json` → `evaluation`: the sole record of that lesson's vocabulary and
   grammar changes, evidence, and before/after progress.
 - `assessments/level.json`: your selected lesson level and permanently unlocked levels.
@@ -272,3 +459,17 @@ your long-term record.
 
 This README is your quick guide. AGENTS.md is the detailed source of truth for
 the current lesson rules.
+
+## License and credits
+
+This project's original code and documentation are available under the
+[MIT license](LICENSE), copyright © 2026 Yunhai Xiang. You may use, modify, and
+share them, including commercially, subject to the license's notice requirements.
+
+The vocabulary bank adapts the MIT-licensed French data from
+[Language-Learning-decks](https://github.com/vbvss199/Language-Learning-decks/tree/main/french).
+Its original copyright and permission notice are preserved in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Speech models and installed
+packages retain their own licenses; the project's MIT license does not relicense
+those components. This is an independent learning aid, not an official TEF course,
+official CEFR assessment, or guarantee of an exam result.
