@@ -6,6 +6,8 @@ import json
 import re
 from pathlib import Path
 
+from browse_bank import load_records, validate_browser, validate_library
+
 SECTIONS = ("Reading", "Listening", "Writing", "Speaking")
 LEVELS = ("A1", "A2", "B1", "B2", "C1", "C2")
 
@@ -253,6 +255,46 @@ def validate_lesson(data, shape):
                     "invalid clarification question/attempt reference")
 
 
+def validate_navigation(state, example, records=None):
+    version = state.get("schema_version")
+    require(type(version) is int and version in (1, 2), "unsupported navigation version")
+    expected = dict(example)
+    if version == 1:
+        expected.pop("browser")
+    keys(state, expected, "state")
+    require(state["mode"] in ("real", "isolated_test"), "unsupported navigation mode")
+    pages = ("welcome", "begin", "resume", "stats", "level", "archive_list",
+             "archive", "help", "lesson", "review")
+    actions = ("menu_choice", "new_lesson_confirmation", "resume_choice", "level_choice",
+               "archive_choice", "archive_continue", "lesson_answer", None)
+    if version == 2:
+        pages += ("library", "bank_list", "bank_item")
+        actions += ("bank_choice", "bank_command")
+    require(state["page"] in pages, "invalid navigation page")
+    require(state["pending_action"] in actions, "invalid navigation action")
+    require(type(state["page_number"]) is int and state["page_number"] >= 1, "invalid page number")
+    require((state["mode"] == "real" and state["test_root"] is None) or
+            (state["mode"] == "isolated_test" and isinstance(state["test_root"], str)
+             and Path(state["test_root"]).is_absolute()), "invalid test-root pointer")
+    if version == 2:
+        browser = state["browser"]
+        if browser is not None:
+            validate_browser(browser, records)
+        if state["page"] in ("bank_list", "bank_item"):
+            require(browser is not None and state["pending_action"] == "bank_command"
+                    and state["choices"] == [] and state["page_number"] == browser["page_number"],
+                    "bank page/checkpoint mismatch")
+            require((state["page"] == "bank_item") == (browser["selected_item"] is not None),
+                    "bank detail selection mismatch")
+        if state["page"] == "library":
+            require(state["pending_action"] == "bank_choice" and state["choices"] == [],
+                    "invalid bank chooser checkpoint")
+        require(state["pending_action"] != "bank_command" or state["page"] in ("bank_list", "bank_item"),
+                "bank command outside browser")
+        require(state["pending_action"] != "bank_choice" or state["page"] == "library",
+                "bank choice outside chooser")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -261,6 +303,13 @@ def main():
     root = args.root.resolve()
     shape = templates(root)
     if args.self_test:
+        require(shape["state"]["schema_version"] == 2, "expected navigation schema 2")
+        validate_navigation(copy.deepcopy(shape["state"]), shape["state"])
+        legacy_state = copy.deepcopy(shape["state"])
+        legacy_state.pop("browser")
+        legacy_state["schema_version"] = 1
+        validate_navigation(legacy_state, shape["state"])
+        validate_library({"schema_version": 1, "items": []})
         validate_lesson(copy.deepcopy(shape["lesson"]), shape)
         for mutate in (lambda d: d.update(completed=True),
                        lambda d: d.update(cefr_progress_percent=1.5),
@@ -357,20 +406,14 @@ def main():
     require(level["cefr_level"] in level["unlocked_levels"], "selected band is locked")
     require(level["unlocked_levels"] == [s for s in LEVELS if s in level["unlocked_levels"]],
             "unlocked levels have invalid values, order, or duplicates")
+    records = load_records(root)
     if (root / "state.json").exists():
         state = load(root / "state.json")
-        keys(state, shape["state"], "state")
-        require(state["schema_version"] == 1 and state["mode"] in ("real", "isolated_test"),
-                "unsupported state format/mode")
-        require(state["page"] in ("welcome", "begin", "resume", "stats", "level", "archive_list",
-                                  "archive", "help", "lesson", "review"), "invalid navigation page")
-        require(state["pending_action"] in ("menu_choice", "new_lesson_confirmation", "resume_choice",
-                    "level_choice", "archive_choice", "archive_continue", "lesson_answer", None),
-                "invalid navigation action")
-        require(type(state["page_number"]) is int and state["page_number"] >= 1, "invalid page number")
-        require((state["mode"] == "real" and state["test_root"] is None) or
-                (state["mode"] == "isolated_test" and isinstance(state["test_root"], str)
-                 and Path(state["test_root"]).is_absolute()), "invalid test-root pointer")
+        # A real-root checkpoint can point into an isolated test. Do not match
+        # its browser identities against real banks or follow an unverified
+        # external root here; check identities with test records when browsing
+        # the verified active root.
+        validate_navigation(state, shape["state"], records if state["mode"] == "real" else None)
     count = 0
     for path in sorted((root / "lessons").glob("*/lesson.json")):
         data = load(path)
@@ -385,7 +428,7 @@ def main():
                         "policy snapshot missing or outside lesson")
         count += 1
     print(f"Read-only checks passed: contract examples, {len(entries)} vocabulary entries, "
-          f"{len(rules)} grammar rules, level selection, and {count} lesson records.")
+          f"{len(rules)} grammar rules, level selection, browser metadata/navigation, and {count} lesson records.")
     print("These structural checks do not replace semantic grading, full policy review, or audio QA.")
 
 

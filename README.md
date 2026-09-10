@@ -1,32 +1,69 @@
-# French learning buddy
+# French Learning Buddy
+
+### A little French, every day. A learning record that stays with you.
+
+**TEF Canada preparation · Local French audio · Adaptive practice · Saved progress**
 
 A reusable, assistant-guided French-learning workspace with local speech audio
 and progress saved in files. Anyone can make their own learner copy. The default
 goal is to start with A1 material and work toward NCLC 7 on TEF Canada within
 three years, through exposure, practice, feedback, and review.
 
-**This is not a standalone desktop app or website.** Your AI assistant runs the
-lessons by following [AGENTS.md](AGENTS.md), reading and updating the JSON records,
-and running the audio script. There is no server to launch. You need an assistant
-with access to your local project files and terminal; uploading this README to
-an ordinary chat alone does not set that up.
+[**Installation**](#install-and-set-up) · [**Start learning**](#start-here) ·
+[**Daily lesson**](#your-daily-lesson) · [**Vocabulary & grammar**](#browse-vocabulary-and-grammar) ·
+[**Progress**](#understanding-your-progress) · [**License**](#license-and-credits)
+
+| Your routine | Your practice | Your record |
+|---|---|---|
+| About **1 hour a day** | **Reading · Listening · Writing · Speaking** | Lessons, attempts, feedback, and progress saved in your folder |
+
+> [!NOTE]
+> This is an **assistant-guided workspace**, not a standalone app or website.
+> You need an assistant that can read and edit local files, run commands, and
+> play local audio.
+
+Your assistant follows [AGENTS.md](AGENTS.md), updates the JSON records, and runs
+the audio script. There is no server to launch; uploading this README to an
+ordinary chat alone does not set up the workspace.
+
+<details>
+<summary><strong>Contents</strong></summary>
+
+- [Install and set up](#install-and-set-up)
+- [Privacy and backups](#privacy-and-backups)
+- [Start here](#start-here)
+- [Browse vocabulary and grammar](#browse-vocabulary-and-grammar)
+- [Your daily lesson](#your-daily-lesson)
+- [Feedback and retries](#feedback-and-retries)
+- [Speaking with dictation](#speaking-with-dictation)
+- [Useful requests](#useful-requests)
+- [Your progress records](#your-progress-records)
+- [Understanding your progress](#understanding-your-progress)
+- [Saving space](#saving-space)
+- [Progress calculation](#progress-calculation)
+- [License and credits](#license-and-credits)
+
+</details>
+
+---
 
 ## Install and set up
 
 ### 1. Check what you need
 
-- An **Apple Silicon Mac** (M1 or later) for the included MLX audio backend.
-  The pinned recipe below targets **macOS 26**; the installed MLX 0.32.2 wheels
-  are tagged for macOS 26. This project was checked on an M1 running macOS 26.6.2.
-  Older macOS releases need a separately tested compatible dependency set.
-  Windows, Linux, and Intel Macs do not have a supported audio setup in this repo.
-- **Python 3.12**, running natively as `arm64`. Do not substitute Python 3.13+
-  for this dependency set. Git is optional if you download the repository ZIP.
-- A local-file-capable AI assistant. This workflow has been used in the Codex
-  desktop environment; another assistant must support file edits, command
-  execution, and local audio playback to provide the same experience.
-- Internet for installing packages, the first model download, and your assistant
-  service. Allow several GB of free disk space for the environment and models.
+| Requirement | What you need |
+|---|---|
+| **Mac** | Apple Silicon, **M1 or later**, for the included MLX audio backend. |
+| **macOS** | **26** for the pinned recipe; checked on an M1 running macOS 26.6.2. |
+| **Python** | **3.12**, running natively as `arm64`—not Python 3.13+. |
+| **Assistant** | Local file access, file editing, command execution, and audio playback. This workflow has been used in the Codex desktop environment. |
+| **Connection & storage** | Internet for installation, the first model download, and your assistant service; several GB of free disk space. |
+| **Git** | Optional—you can download the repository ZIP instead. |
+
+> [!IMPORTANT]
+> The installed MLX 0.32.2 wheels target macOS 26. Older macOS releases need a
+> separately tested dependency set. Windows, Linux, and Intel Macs do not have
+> a supported audio setup in this repository.
 
 The project code is free to use under the [MIT license](LICENSE). Local Kokoro
 generation has no per-clip API charge; your assistant's access, usage limits, and
@@ -53,7 +90,9 @@ git clone https://github.com/yunhaixiang/french-learning.git
 cd french-learning
 ```
 
-**New learner:** the repository may contain its original learner's scores,
+#### New learner
+
+The repository may contain its original learner's scores,
 trial lessons, and a machine-specific navigation checkpoint. Do not use those
 as your own baseline. Create a separate clean copy:
 
@@ -70,7 +109,9 @@ It does **not** copy lessons, backups, `state.json`, Git history, or the install
 audio environment. The source project remains unchanged. It uses only Python's
 standard library, so it works before installing the audio packages.
 
-**Returning learner:** continue in your existing learner folder, with its
+#### Returning learner
+
+Continue in your existing learner folder, with its
 assessments and lessons intact. Skip the fresh-copy command. Installing the audio
 dependencies does not reset progress. If you are restoring a backup with a stale
 test-folder pointer, ask the assistant to resolve it before beginning a lesson;
@@ -97,6 +138,9 @@ it from [requirements.txt](requirements.txt), rather than copying or committing
 its large binaries. Keep normal dependency installation enabled; do not add
 `--no-deps`.
 
+<details>
+<summary><strong>What gets installed?</strong> Dependencies and French phonemization</summary>
+
 The manifest pins the direct dependencies from the working local environment,
 not every transitive package or the downloaded model revision:
 
@@ -115,6 +159,8 @@ automatically; you do not need to identify and copy files out of `.kokoro-env`.
 The French path uses Misaki's eSpeak backend with the library and data supplied
 by `espeakng-loader`. It does not require a separate French spaCy model or a
 separate Homebrew eSpeak installation in this setup.
+
+</details>
 
 ### 4. Test French audio
 
@@ -157,6 +203,9 @@ different timezone, rather than renaming historical lessons.
 
 ### Setup troubleshooting
 
+<details>
+<summary><strong>Having trouble?</strong> Python, downloads, GPU access, and playback</summary>
+
 - **Python or a package cannot be found:** check you are in the learner folder
   and use `.kokoro-env/bin/python`, not an unrelated global Python. Re-run the
   dependency installation and `pip check` above.
@@ -177,7 +226,13 @@ different timezone, rather than renaming historical lessons.
   on your device and submit the resulting text. You can open generated WAV files
   in a local player, but the assistant must still be able to save project files.
 
+</details>
+
 ## Privacy and backups
+
+> [!WARNING]
+> Your assessments and lesson transcripts are **not excluded by `.gitignore`**.
+> Review what you publish and keep learner records in private storage.
 
 Your lesson files contain answers, dictation transcripts, and detailed progress.
 Only the speech synthesis runs locally; material and answers you discuss with
@@ -191,6 +246,8 @@ and choose private storage. `.gitignore` excludes environments and caches,
 model/environment binaries. Reinstall dependencies after moving to a new Mac;
 restore your assessment and lesson files to keep your progress.
 
+---
+
 ## Start here
 
 Open a chat in this project and say **“Menu”** to see the starting page:
@@ -201,6 +258,9 @@ Open a chat in this project and say **“Menu”** to see the starting page:
 4. Set my level
 5. View a completed lesson
 6. Help
+7. View vocabulary and grammar
+
+### Navigate your workspace
 
 Reply with the option number or name. You can also ask directly, for example
 “Begin today's lesson” or “Continue my unfinished lesson.” If several unfinished
@@ -213,11 +273,16 @@ Only your data and the relevant state change. These formats are defined in
 AGENTS.md. Lesson openings, questions, feedback, and closing reviews also follow
 their established templates.
 
+<details>
+<summary><strong>What does each menu option show?</strong></summary>
+
 **View my stats** shows your selected level, that level's vocabulary and grammar
 progress, unlocked levels, completed lessons, and saved unfinished sessions.
+
 **Set my level** shows available and locked CEFR bands. Type an unlocked band's
 name to select it for subsequent lessons; just opening the page changes nothing.
 Your scores and any unfinished lesson stay unchanged.
+
 **View a completed lesson** lets you choose a completed full lesson by date or
 ID and see its entire saved content: the focus preview, all four sections,
 source passages, reference translations, **every attempt and its feedback**,
@@ -231,13 +296,22 @@ The evaluation is stored only inside that lesson.json—there is no separate log
 folder or duplicate evaluation file. Its pending/applied status supports safe
 recovery without awarding changes twice. An unevaluated lesson has no evaluation yet; this is
 distinct from a completed evaluation that made no score changes.
+
 **Help** explains the lesson workflow and available commands. These views do
 not change your scores or start a lesson. You can ask for **“Menu”** during a
 lesson without losing your place; menu choices are not recorded as answers.
 
+**View vocabulary and grammar** opens a choice of the two banks. You can also
+say **“View vocabulary”** or **“View grammar”** directly. See below for the table
+controls; browsing never increases familiarity or unlocks a lesson level.
+
+</details>
+
 The assistant prepares the material, presents questions, and saves your answers.
 You do not need to edit the project files yourself. Audio preparation may take
 a little time before the lesson starts.
+
+### Continue in a new chat
 
 If you start a new chat, say:
 
@@ -245,6 +319,9 @@ If you start a new chat, say:
 > from where I left off.
 
 Saved files provide continuity; the project does not rely only on chat history.
+
+<details>
+<summary><strong>How continuity and recovery work</strong></summary>
 
 AGENTS.md includes a recovery checklist for every new conversation. A small
 `state.json` checkpoint records the open page, pending choice, active lesson, and
@@ -257,17 +334,89 @@ The assistant also has a read-only consistency checker for the saved format,
 bank identities, and score bounds. It does not grade answers or change records.
 Backups are preserved before score updates; they are not counted as extra lessons.
 
+</details>
+
+## Browse vocabulary and grammar
+
+Each bank appears as a table of **20 items per page**. Vocabulary shows the word,
+part of speech, gender, English meaning, level, familiarity, favorite star, and
+last visit. Grammar shows the rule ID, rule, category, level, familiarity,
+favorite star, and last visit. You can browse all levels, including bands not
+yet unlocked for lessons.
+
+### Choose an order
+
+| Order | Default |
+|---|---|
+| Recently visited | Most recently opened items first; never-visited items last. |
+| Level | A1 → C2; unknown levels last. |
+| Alphabetical | A–Z by French word or grammar rule text, ignoring case and accents. |
+| Familiarity | 0 → 5, so unfamiliar items come first. |
+| Favorite | ★ items first, then ☆ items; both groups alphabetical. |
+
+The initial order is Alphabetical. Reopening the same bank remembers your page
+and order; switching banks starts at page 1 alphabetically. Use `asc` or `desc`
+to reverse an order, for example **“Sort familiarity desc”**. Changing the sort
+returns to page 1. Ties are resolved consistently, not randomly.
+
+### Move around and save favorites
+
+- **Next**, **Previous**, or **Page 12** — navigate pages.
+- **Sort recently visited**, **Sort level**, **Sort alphabetical**,
+  **Sort familiarity**, or **Sort favorite** — change the order.
+- **View 24** — open the details of displayed row 24; a bare **24** also works.
+- **Favorite 24** / **Unfavorite 24** — set or remove its star.
+- **Vocabulary** / **Grammar** — switch banks.
+- **Menu** — return to the welcome page without losing your lesson position.
+
+<details>
+<summary><strong>How favorites, visits, and row numbers behave</strong></summary>
+
+Inside item details, use **Favorite**, **Unfavorite**, or **Back**. A favorite
+command sets the star explicitly; repeating it will not toggle the star off.
+“Recently visited” means the time you explicitly opened an item's details in
+this browser—not its last lesson appearance. Looking at tables, paging, and
+favoriting do not mark every visible item visited. Visit tracking starts when
+you use this feature; old dates are not invented from your lesson history.
+
+Row numbers belong to the current ordering, not the vocabulary database. A star
+change or Back from details keeps the displayed rows stable; the order refreshes
+on your next page/sort command or when you reopen the bank. Refer to the numbers
+on the most recently displayed page.
+
+Favorites and visits are stored separately in `assessments/library.json`, created
+on your first favorite or detail visit. They do not change familiarity, scores,
+or lesson-selection rules. New learner copies start without favorites or visits.
+The navigation checkpoint saves your displayed row identities so commands remain
+unambiguous across chats. Your vocabulary/grammar bank formats are unchanged.
+
+During a lesson, a lookup that helps answer the pending question is recorded as
+help, not unaided recall; unrelated browsing is not a quiz attempt. No audio is
+generated simply to display these tables.
+
+</details>
+
 ## Your daily lesson
 
 Allow roughly one hour: four sections of about 15 minutes. Retries may make a
 section longer, and you can stop when you need to.
 
+### First, preview your focus
+
 At the beginning, you see your current progress, such as **35% A1** (an example,
 not your actual score), plus your vocabulary and grammar percentages for that
 same CEFR band. These cover all bank items in that band—not the whole database
-or only today's focus. Then comes a short focus preview: **eight vocabulary items** (four new, four
-review) and **four grammar targets** (two new, two review). It includes meanings,
-useful forms, examples, and vocabulary audio. This is an introduction, not a quiz.
+or only today's focus. Then comes a short focus preview:
+
+| Focus | New | Review | Total |
+|---|---:|---:|---:|
+| Vocabulary | 4 | 4 | **8 items** |
+| Grammar | 2 | 2 | **4 targets** |
+
+The preview includes meanings, useful forms, examples, and vocabulary audio.
+This is an introduction, not a quiz.
+
+### Then, practise in four sections
 
 | Section | What you do | Material |
 |---|---|---|
@@ -295,13 +444,17 @@ Feedback shows a verdict, your answer, and brief corrections in this format:
 
 - *étudie* → *étudier*: after *voulons*, use the infinitive (*to study*).
 
-- **Correct:** see a reference answer, then move to the next question.
-- **Almost correct:** use the corrections and try the same question again.
-- **Needs revision:** use the hints or local corrections and retry.
-- **Skip:** move on without revealing the reference answer.
+| Verdict | What happens next |
+|---|---|
+| **Correct** | See a reference answer, then move to the next question. |
+| **Almost correct** | Use the corrections and try the same question again. |
+| **Needs revision** | Use the hints or local corrections and retry. |
+| **Skip** | Move on without revealing the reference answer. |
 
-The full reference answer is revealed **only after a correct response**.
-Individual corrections can be given before then.
+> [!TIP]
+> The full reference answer is revealed **only after a correct response**.
+> Individual corrections can be given before then. Ask for an explanation whenever
+> you need one.
 
 Every submitted answer, retry, skip, and its feedback is saved. A successful
 retry does not erase the earlier mistake.
@@ -333,6 +486,9 @@ as possible pronunciation unclearness, with a request to say them again clearly;
 this is a practice cue, not a confirmed pronunciation diagnosis. There is no
 pronunciation score.
 
+> [!NOTE]
+> Speaking feedback assesses the **dictated text**, not your pronunciation.
+
 ## Useful requests
 
 - “Skip this question.”
@@ -351,15 +507,24 @@ your completed daily lessons.
 
 ## Your progress records
 
-- [AGENTS.md](AGENTS.md): the assistant's detailed teaching instructions and lesson-file format.
-- [lessons/](lessons/): dated lesson folders. Each `lesson.json` contains material, focus, answers, feedback, and progress; its `audio/` folder holds temporary generated clips. An `audio-cleanup.json` audit records completed-lesson audio removal.
-- [Vocabulary](assessments/vocabulary.json) and [grammar](assessments/grammar.json): familiarity records on a **0–5 scale**, from untested/unfamiliar to consistently reliable.
-- `lesson.json` → `evaluation`: the sole record of that lesson's vocabulary and
-  grammar changes, evidence, and before/after progress.
-- `assessments/level.json`: your selected lesson level and permanently unlocked levels.
+| File or folder | What it keeps |
+|---|---|
+| [AGENTS.md](AGENTS.md) | The assistant's teaching instructions and canonical lesson-file format. |
+| [lessons/](lessons/) | Dated lesson folders. Each `lesson.json` saves material, focus, answers, feedback, and progress. |
+| `lesson.json` → `evaluation` | The **sole** log of that lesson's vocabulary/grammar changes, evidence, and before/after progress. |
+| [vocabulary.json](assessments/vocabulary.json) | Vocabulary familiarity on a **0–5 scale**, from untested/unfamiliar to consistently reliable. |
+| [grammar.json](assessments/grammar.json) | Grammar familiarity on the same **0–5 scale**. |
+| [level.json](assessments/level.json) | Your selected lesson band and permanently unlocked levels. |
+| `assessments/library.json` | Favorites and item-detail visit times; created when needed, separate from scores and evaluations. |
+| `state.json` | Navigation, the active lesson pointer, and the current real/test mode. |
+| Each lesson's `audio/` | Temporary generated clips; `audio-cleanup.json` records completed-lesson audio removal. |
 
 Lesson folder names use the local Toronto start time: year, month, day, hour,
 minute, second. Tests are identified as trials inside their lesson records.
+
+## Understanding your progress
+
+### Review at the right time
 
 Review selection prioritizes weak or recently incorrect items. Difficulty follows
 your demonstrated progress; familiarity scores and CEFR estimates are learning
@@ -369,6 +534,8 @@ The review schedule uses intervals of 1, 2, 4, 8, and 16 completed full lessons
 for familiarity scores 1–5. Recent errors are due immediately; time alone never
 lowers a score. If a requested new/review category is short of items, the preview
 explains its replacement instead of mislabelling a known word as new.
+
+### Unlock your next level
 
 Your selected learning band and its progress are displayed as **70% A2**, for
 example—not 70% correct on a quiz. A1 is available from the start. A displayed
@@ -382,6 +549,8 @@ lessons; your current lesson and historical snapshots stay unchanged. Each band
 keeps its own progress, so switching neither resets familiarity nor transfers
 the previous band's percentage. These are curriculum choices, not certified levels.
 
+### How familiarity changes
+
 At the end of a lesson, the assistant considers **the lesson you just completed
 plus the two previous completed full lessons**. If fewer exist, it uses those
 available. Trials and incomplete lessons do not fill the historical window.
@@ -389,6 +558,9 @@ Earlier answers provide evidence of consistency; their old score changes are
 not applied again. Each new evaluation is applied once, and an item must have
 fresh evidence in the current lesson to change. Merely appearing in an earlier
 lesson cannot produce another increase or decrease.
+
+<details>
+<summary><strong>Promotion, regression, and assisted answers</strong></summary>
 
 Each item's familiarity can rise or fall by at most one point per completed
 lesson. Promotions use independent evidence across the three-lesson window and,
@@ -401,6 +573,10 @@ Assisted retries are
 recorded as learning, not extra independent successes; uncertain dictation errors
 and unassessed items receive no penalty. A new item's move from 0 to 1 means
 newly encountered, not mastered.
+
+</details>
+
+### Your end-of-lesson review
 
 At the end, your **Lesson Review** shows:
 
@@ -436,12 +612,20 @@ was removed and how much space was freed when known.
 
 ## Progress calculation
 
-It then calculates your **progress percentage**: the average of vocabulary
-progress and grammar progress in your
-current band, giving each bank 50% weight. Each bank's progress is its average
+Your **progress percentage** averages vocabulary and grammar progress in your
+current band, giving each bank **50% weight**. Each bank's progress is its average
 familiarity divided by 5, expressed as a percentage; untested items count as 0.
 The final percentage is rounded down to a whole number. For example, 60%
 vocabulary progress and 80% grammar progress give 70% overall.
+
+```text
+Vocabulary progress = average vocabulary familiarity ÷ 5 × 100
+Grammar progress    = average grammar familiarity ÷ 5 × 100
+Overall progress    = round down((vocabulary progress + grammar progress) ÷ 2)
+```
+
+All three calculations use only the selected CEFR band. Do not round the two
+components before calculating overall progress.
 
 This is an internal curriculum indicator, not a precise measurement of CEFR
 ability. It can stay unchanged or decrease as evidence changes. Familiarity 5
@@ -460,6 +644,8 @@ your long-term record.
 This README is your quick guide. AGENTS.md is the detailed source of truth for
 the current lesson rules.
 
+---
+
 ## License and credits
 
 This project's original code and documentation are available under the
@@ -473,3 +659,5 @@ Its original copyright and permission notice are preserved in
 packages retain their own licenses; the project's MIT license does not relicense
 those components. This is an independent learning aid, not an official TEF course,
 official CEFR assessment, or guarantee of an exam result.
+
+[Back to top ↑](#french-learning-buddy)

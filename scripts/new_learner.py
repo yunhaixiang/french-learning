@@ -22,7 +22,7 @@ def create_learner(source: Path, destination: Path) -> None:
     # navigation pointers, Git history, or other personal files.
     files = ["AGENTS.md", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md",
              "requirements.txt", ".gitignore", "scripts/kokoro_french.py",
-             "scripts/check_contract.py", "scripts/new_learner.py"]
+             "scripts/check_contract.py", "scripts/new_learner.py", "scripts/browse_bank.py"]
     for name in files:
         if not (source / name).is_file():
             raise ValueError(f"Missing template file: {name}")

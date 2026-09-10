@@ -8,9 +8,11 @@ This file is the authoritative current project contract, not a reminder of a
 conversation. Read it completely before teaching, presenting project pages, or
 editing learning records. If a tool truncates it, continue reading to the end.
 Do not depend on remembered examples, previous replies, or a summary to supply
-missing rules. The current contract revision is `2026-09-09.3`; its teaching
+missing rules. The current contract revision is `2026-09-09.4`; its teaching
 policy is `lesson-v1`, lesson schema is 9, embedded evaluation schema is 6,
 familiarity policy is `familiarity-v2`, and progress policy is `progress-v5`.
+Navigation schema is 2 and the bank-browser policy is `library-v1`; these do not
+change lesson/evaluation schemas or learning-score policies.
 
 ### Sources of truth and recovery order
 
@@ -19,7 +21,9 @@ familiarity policy is `familiarity-v2`, and progress policy is `progress-v5`.
    test folder is the real project or vice versa.
 2. Read the resolved data root's `assessments/level.json`, bank metadata, lesson
    metadata, and each lesson's embedded evaluation status. Read whole banks only when calculations
-   or selection require them. Do not load every historical transcript each turn.
+   or selection require them. For bank browsing also read `assessments/library.json`
+   if present and the saved browser checkpoint. Do not load every historical
+   transcript each turn.
 3. For teaching, read the selected lesson's saved policy snapshot, Focus, current
    question, all its attempts, and relevant `clarifications`. For evaluation,
    read the three eligible source lessons and their relevant clarifications;
@@ -75,18 +79,19 @@ migrate, relabel A0 records, backfill unknown evidence, or reset scores. A legac
 lesson without a policy snapshot uses the current compatible teaching rules, with
 that limitation stated when relevant. Its saved counts/material remain intact.
 
-### Durable navigation and test isolation (`state.json`, version 1)
+### Durable navigation and test isolation (`state.json`, version 2)
 
 Keep one small `state.json` at the real project root for continuity. Create it
 when navigation/lesson work next needs a checkpoint, not with invented history.
 All keys below are required; it contains pointers only, never duplicate scores or
-reference answers. This is the sole navigation-write exception to read-only
-pages: stats, Help, and archives may save this UI checkpoint but must not mutate
-lessons, banks, evaluations, unlocks, or audio as a browsing side effect.
+reference answers. Stats, Help, and archives may save this UI checkpoint but must
+not mutate lessons, banks, evaluations, unlocks, or audio as a browsing side effect.
+The bank browser may additionally save favorites and explicit item-detail visits
+in `assessments/library.json`. Neither kind of navigation write changes scores.
 
 ```json
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "updated_at": "2026-09-09T09:00:00-04:00",
   "mode": "real",
   "test_root": null,
@@ -96,7 +101,8 @@ lessons, banks, evaluations, unlocks, or audio as a browsing side effect.
   "choices": [],
   "page_number": 1,
   "archive_lesson_id": null,
-  "archive_position": null
+  "archive_position": null,
+  "browser": null
 }
 ```
 
@@ -105,19 +111,35 @@ lessons, banks, evaluations, unlocks, or audio as a browsing side effect.
   the exception to lesson-relative paths. Do not follow a missing, symlinked, or
   unverified test root; ask how to recover it without falling back to real writes.
 - `page`: `welcome`, `begin`, `resume`, `stats`, `level`, `archive_list`,
-  `archive`, `help`, `lesson`, or `review`.
+  `archive`, `help`, `lesson`, `review`, `library`, `bank_list`, or `bank_item`.
 - `pending_action`: `menu_choice`, `new_lesson_confirmation`, `resume_choice`,
-  `level_choice`, `archive_choice`, `archive_continue`, `lesson_answer`, or null.
+  `level_choice`, `archive_choice`, `archive_continue`, `lesson_answer`,
+  `bank_choice`, `bank_command`, or null.
 - `choices`: ordered objects `{ "number": 1, "lesson_id": "..." }` only for
   displayed lesson/trial lists; otherwise `[]`. Preserve this mapping until the
-  page is refreshed. Welcome numbers always use the six fixed menu options.
+  page is refreshed. Welcome numbers always use the seven fixed menu options.
+  Bank-table numbers are stored separately in `browser.rows`, never in `choices`.
 - `page_number`: positive integer. `archive_position`: null or an object with
   `section` (Focus/Reading/Listening/Writing/Speaking/Evaluation), `item_id`
   (string or null), and `attempt_number` (integer or null), identifying the next
   undisplayed block. Archive and active lesson IDs are separate nullable strings.
+- `browser`: null until a bank has been displayed; otherwise use the exact
+  bank-browser checkpoint below. Retain it when returning to Menu so its last
+  bank, sort, and page can be recovered without storing the entire bank in state.
+  On `bank_list`/`bank_item`, root `page_number` matches `browser.page_number`;
+  other pages retain their own pagination conventions.
 - Save after presenting a navigable prompt or changing the teaching cursor, and
   before yielding. Menu/Help/stats do not clear the active lesson pointer. Lesson
   changes commit before their navigation checkpoint; on recovery reconcile both.
+
+Existing version-1 navigation remains readable and is not migrated by checks or
+this rule edit. On the next navigation write, this feature authorizes a one-time
+navigation-only upgrade: preserve the exact original as `state.json.pre-v1.bak`
+without overwriting an existing backup, add `browser: null`, and set version 2.
+Preserve every existing field, especially mode, test_root, and active lesson;
+then apply only the requested navigation. New checkpoints use version 2.
+Never migrate lessons or banks as part of this upgrade. If an existing backup
+conflicts, preserve both files and resolve the conflict before writing.
 
 An explicitly requested dry run uses a separate copied data root, labelled as an
 isolated test on pages; all lesson/bank/evaluation/audio writes stay inside that root.
@@ -269,7 +291,7 @@ application. Show it when the user asks for the welcome page, starting page,
 home, or menu, or greets the assistant without requesting a specific action.
 In a new conversation, follow an explicit task directly; do not force the menu
 before a request to begin/resume a lesson, view a completed lesson, view stats,
-set a level, get help, or edit rules.
+set a level, browse vocabulary/grammar, get help, or edit rules.
 Render the following as Markdown, not a code block:
 
 ```text
@@ -281,6 +303,7 @@ Render the following as Markdown, not a code block:
 4. Set my level
 5. View a completed lesson
 6. Help
+7. View vocabulary and grammar
 
 Choose an option by number or name.
 ```
@@ -294,7 +317,7 @@ does not create, stop, complete, or assess a lesson and does not generate audio.
 
 ### Fixed page format contract
 
-All six welcome-menu destinations and their navigation states use the canonical
+All seven welcome-menu destinations and their navigation states use the canonical
 templates below. Keep page titles, heading order, field labels, table columns,
 and closing prompts fixed across conversations. Substitute actual saved values;
 do not redesign, rename, reorder, or add optional dashboard sections on each visit.
@@ -377,11 +400,219 @@ choices after a context reset; do not reconstruct the list from a new sort order
 6. **Help:** briefly explain the four lesson sections, dictation input, audio
    speeds, feedback/retries/skipping, saved progress, and how unlocked level
    selection works. Include the commands `Begin a new lesson`, `Resume my lesson`,
-   `View my stats`, `Set my level`, `View a completed lesson`, `Skip`,
+   `View my stats`, `Set my level`, `View a completed lesson`,
+   `View vocabulary and grammar`, `Skip`,
    `Stop the lesson`, and `Menu`. Explain that scores
    are learning indicators rather than official CEFR/TEF results. Keep this a
    concise user guide; link to README.md for detail. Do not start or alter a
    lesson as a side effect of help.
+7. **View vocabulary and grammar:** show the bank chooser below, then a paginated
+   table of the chosen bank. Accept direct `View vocabulary` / `View grammar`
+   requests without forcing the chooser. Support all five sorts, explicit item
+   visits, and favorites using `library-v1`. Never start a lesson or change scores
+   merely because the user browses, sorts, or favorites an item.
+
+### View vocabulary and grammar (`library-v1`)
+
+Keep welcome options 1–6 unchanged and append this as option 7. Use this chooser:
+
+```text
+# View vocabulary and grammar
+
+1. Vocabulary
+2. Grammar
+
+Choose Vocabulary or Grammar by name or number.
+Type Menu to return to the starting page.
+```
+
+Use page `library`, pending_action `bank_choice`, and empty `choices`. Here 1/2
+select a bank, not a welcome action. Direct bank requests skip the chooser.
+Initially use Alphabetical (A–Z), page 1; reopening the same bank preserves its
+saved sort/direction/page. Switching banks starts at page 1, Alphabetical (A–Z).
+All levels are browsable, including locked lesson bands and Unknown; this awards
+no unlock. Use these fixed list templates:
+
+```text
+# Vocabulary
+
+Sort: [name] — [direction label]
+Page [p] of [pages] — [total] items — 20 per page.
+
+| # | Favorite | Word | Part of speech | Gender | English meaning | Level | Familiarity | Last visited (Toronto) |
+|---|---|---|---|---|---|---|---|---|
+| [number] | [★ / ☆] | *[stored word]* | [stored POS] | [gender] | *[stored meaning]* | [level] | [n]/5 | [date/time / Never] |
+
+Sort by: Recently visited / Level / Alphabetical / Familiarity / Favorite.
+Commands: Next; Previous; Page [n]; Sort [name] [asc/desc]; View [#]; Favorite [#]; Unfavorite [#]; Vocabulary; Grammar.
+Type Menu to return to the starting page.
+```
+
+```text
+# Grammar
+
+Sort: [name] — [direction label]
+Page [p] of [pages] — [total] items — 20 per page.
+
+| # | Favorite | ID | Rule | Category | Level | Familiarity | Last visited (Toronto) |
+|---|---|---|---|---|---|---|---|
+| [number] | [★ / ☆] | [stored ID] | [stored rule] | [stored category] | [level] | [n]/5 | [date/time / Never] |
+
+Sort by: Recently visited / Level / Alphabetical / Familiarity / Favorite.
+Commands: Next; Previous; Page [n]; Sort [name] [asc/desc]; View [#]; Favorite [#]; Unfavorite [#]; Vocabulary; Grammar.
+Type Menu to return to the starting page.
+```
+
+Use 20 rows per page, fewer on the last page. Numbers are positions in the current
+ordering: 1–20, 21–40, etc.; they are not permanent IDs. Show full stored meanings
+and rules, italicizing language material as usual. Escape table pipes/newlines
+without editing bank text. Gender shows Masculine / Feminine / Both / Unknown
+for nouns, and — for non-nouns; use stored data, not guessed articles. Grammar
+alphabetical order uses full rule text, not ID/category. Missing/malformed banks
+or scores are Unavailable with a reason, not zero or a fabricated empty bank.
+For an actually empty bank, show Page 1 of 1 — 0 items — 20 per page, retain the
+table headers with no data rows, and add `No items in this bank.` after the table.
+Reject out-of-range pages/directions without changing the checkpoint.
+
+| Sort | Default direction / label | Reverse direction / label |
+|---|---|---|
+| Recently visited | desc / Newest first | asc / Oldest first |
+| Level | asc / A1 → C2 | desc / C2 → A1 |
+| Alphabetical | asc / A–Z | desc / Z–A |
+| Familiarity | asc / 0 → 5 | desc / 5 → 0 |
+| Favorite | desc / Favorites first | asc / Favorites last |
+
+Store sort names as `recently_visited`, `level`, `alphabetical`, `familiarity`,
+or `favorite`. Unknown levels and never-visited items always go last in their
+respective sorts, even when reversed. Favorite groups starred items first by
+default; it does not hide unstarred entries. Break primary-key ties by normalized
+alphabetical name ascending, then exact stored name ascending, then exact bank
+identity ascending. Normalize with casefold, œ→oe and æ→ae, Unicode NFKD, and
+removal of combining marks; never change stored French. Sort changes reset to
+page 1. Pagination alone does not alter visit dates. Numbers may change when an
+ordering refreshes; commands always refer to the currently displayed table.
+
+Use the read-only helper to calculate a page without loading every entry into the
+conversation (an available Python 3.9+ works; no audio dependencies are needed):
+
+```sh
+.kokoro-env/bin/python scripts/browse_bank.py --root [verified-active-data-root] --bank vocabulary --sort alphabetical --direction asc --page 1
+```
+
+Resolve mode/data root from state first. In isolated mode pass the verified test
+root, never fall back to real data. The script itself neither presents a page
+nor records a visit. Render its output with the templates above and checkpoint
+only the displayed identities. Use its validators for library metadata and browser
+rows; malformed, duplicate, or orphaned identities require repair, never guessing
+or silently dropping favorites. It may read the banks, not historical transcripts,
+for sorting. Never infer visits from saved familiarity or lesson dates.
+
+#### Item visits and favorites
+
+`View [#]` or a bare displayed row number opens that item. Resolve the number
+against the LAST DISPLAYED `browser.rows` before updating metadata or sorting.
+A unique exact word plus POS, or grammar ID, can also identify an item. Ask which
+POS is intended if a word matches multiple entries; do not favorite all matches.
+For a direct item request not on the saved page, calculate and checkpoint its
+page in the chosen ordering before opening it. Never interpret a saved number
+against a newly sorted list after context recovery.
+
+Details use `# Vocabulary item — *[word]*` or `# Grammar item — [ID]`, then a
+two-column `Field | Value` table. Vocabulary fields in order: Word, Part of speech,
+Gender, English meaning, Level, Familiarity, Favorite, Last visited (Toronto).
+Grammar fields: ID, Rule, Category, Level, Familiarity, Favorite, Last visited
+(Toronto). Use the same stored values and formatting as the list. End with:
+
+```text
+Commands: Favorite; Unfavorite; Back.
+Type Menu to return to the starting page.
+```
+
+An explicit detail opening records the actual ISO 8601 time with offset as
+`last_visited_at`. Redisplaying that detail after a favorite change does not
+count as a new visit. Tables, sorting, paging, favoriting, lessons, previews,
+and archives do not update this browser-only timestamp. Missing metadata means
+Favorite false and Last visited Never, not missing assessment evidence.
+
+`Favorite [#]` sets true; `Unfavorite [#]` sets false. In details, bare Favorite /
+Unfavorite applies to selected_item. These are idempotent set operations, not
+toggles. Preserve last_visited_at when favoriting and favorite when visiting.
+Use ★ / ☆ for true / false. After a list favorite change, redisplay the SAME
+saved rows/order with updated stars. Back from details also restores those rows,
+with the updated visit value. Do not renumber underneath a command. When a
+favorite or visit has changed, add `Selection: Saved — ordering refreshes on your
+next page or sort command.` above the commands. Explicit Sort, Page, Next,
+Previous, or re-opening the bank recalculates ordering and saves new row mappings.
+If bank identities changed, flag stale navigation and safely refresh before
+accepting numbered mutations. Invalid commands do not alter metadata.
+
+Browsing generates no audio, full lesson references, grades, or automatic focus
+priority changes. Favorites are preferences, not mastery or a change to lesson
+selection. Keep the active lesson, cursor, attempts, and starting snapshots intact.
+If a lookup supplies answer-specific help for a pending question, record it under
+the existing clarification rules and treat later relevant answers as assisted;
+do not reveal a hidden full reference or award a point for viewing a table.
+Unrelated browsing and navigation are not lesson attempts.
+
+#### Persistent browser metadata and checkpoint
+
+`assessments/library.json` is optional until the first explicit favorite/visit.
+It is preferences only, NOT an assessment log or a copy of bank scores. An absent
+file is equivalent to this empty object; do not create it merely for listing:
+
+```json
+{
+  "schema_version": 1,
+  "items": []
+}
+```
+
+Each sparse items entry has exactly these six fields:
+
+```json
+{
+  "bank": "vocabulary",
+  "word": "être",
+  "part_of_speech": "verb",
+  "grammar_id": null,
+  "favorite": true,
+  "last_visited_at": null
+}
+```
+
+Grammar uses bank `grammar`, word/part_of_speech null, and its exact ID in
+grammar_id. Vocabulary uses exact (word, part_of_speech). Identities are unique
+and must resolve to their corresponding bank. Favorite is a boolean, not 0/1;
+last_visited_at is null or a real timezone-aware ISO 8601 timestamp. Preserve
+array order; append an identity once, update in place, and leave others untouched.
+Validate and verify saves; never claim success after a failed write. No meanings,
+levels, familiarity, lesson changes, or evaluations are stored here. Write only
+under the active data root. Fresh-learner copies omit this file, starting with
+no visits/favorites. Bank shapes and existing learner data stay unchanged.
+
+The non-null version-2 state.json.browser object has this exact shape:
+
+```json
+{
+  "bank": "vocabulary",
+  "sort": "alphabetical",
+  "direction": "asc",
+  "page_size": 20,
+  "page_number": 1,
+  "rows": [],
+  "selected_item": null
+}
+```
+
+Populate rows from the displayed page, at most 20. Each row has exactly number,
+bank, word, part_of_speech, and grammar_id, with consecutive global page positions.
+selected_item is null in list view, or those four identity fields (without number)
+for the detail item on the saved page. Never store a sorted copy of the entire
+bank or duplicate scores in state. Use page `bank_list` / `bank_item`, pending_action
+`bank_command`, empty choices, and matching root/browser page numbers. Save
+metadata before checkpointing; reconcile interruptions without replaying a toggle
+or inventing a visit. This rule edit and validation runs do not create visits,
+favorites, or a new prompt in the user's live data.
 
 ### Begin a new lesson page
 
@@ -696,6 +927,7 @@ path of the active project's README.md. Do not generate audio or start a lesson.
 | View my stats | See band-specific progress and saved sessions. |
 | Set my level | Choose an unlocked band for future lessons. |
 | View a completed lesson | Browse all saved material and attempts. |
+| View vocabulary and grammar | Browse either bank in 20-item tables; sort, visit, and favorite items. |
 | Skip | Move past the current question without revealing its answer. |
 | Stop the lesson | Save your place and end the session without completing it. |
 | Menu | Return to the starting page without losing your place. |
@@ -1924,7 +2156,7 @@ reusable object shapes, not a complete generated lesson.
   "policy_history": [
     {
       "recorded_at": "2026-09-07T09:00:00-04:00",
-      "contract_revision": "2026-09-09.3",
+      "contract_revision": "2026-09-09.4",
       "teaching_policy": "lesson-v1",
       "familiarity_policy": "familiarity-v2",
       "progress_policy": "progress-v5",
@@ -2251,12 +2483,16 @@ Python 3.9+ runtime after changing this contract or its checker; the installed
 `.kokoro-env/bin/python` is suitable. Run `scripts/check_contract.py` after new
 lesson/assessment writes, with `--root [active data root]` for isolated tests.
 The checker parses canonical JSON examples, checks bank identities and score
-bounds, selection, and version-9 structural invariants, including the embedded
+bounds, selection, optional library metadata, navigation versions 1/2, and
+version-9 structural invariants, including the embedded
 evaluation's shape, identities, and score bounds; no external log is required. It reports legacy
 records instead of migrating them. It is a guardrail, not a complete JSON Schema
 validator, semantic grader, or replacement for the manual checks below. Update
 the checker alongside schema changes and keep its tests passing. Never change a
 record merely to silence a checker that is using the wrong historical schema.
+After bank-browser changes also run `scripts/test_browse_bank.py` and
+`scripts/test_new_learner.py`. Their fixtures must not change live scores,
+favorites, visits, navigation, lessons, or test-mode pointers.
 
 Before teaching and after updating a record, check valid JSON, required keys,
 unique item/Focus IDs, valid references, status/cursor consistency, sequential

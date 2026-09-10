@@ -39,7 +39,8 @@ class NewLearnerTests(unittest.TestCase):
             level = json.loads((dest / "assessments/level.json").read_text())
             self.assertEqual(level, {"cefr_level": "A1", "unlocked_levels": ["A1"], "unlocks": []})
             self.assertEqual(list((dest / "lessons").iterdir()), [])
-            for name in ("state.json", ".git", ".kokoro-env", "assessments/backups", "assessments/log"):
+            for name in ("state.json", ".git", ".kokoro-env", "assessments/backups",
+                         "assessments/log", "assessments/library.json"):
                 self.assertFalse((dest / name).exists(), name)
             self.assertIn("Gender: Not specified", (dest / "AGENTS.md").read_text())
             subprocess.run([sys.executable, str(dest / "scripts/check_contract.py"),
